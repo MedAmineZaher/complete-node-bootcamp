@@ -4,11 +4,12 @@
   "description": "node.js course",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "author": "Amine Zaher",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "slugify": "^1.6.0"
   },
   "devDependencies": {
