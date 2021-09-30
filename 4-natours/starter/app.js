@@ -52,7 +52,7 @@ app.post('/api/v1/tours', (req, res) => {
 app.patch('/api/v1/tours/:id', (req, res) => {
   let index = -1;
   let tour = tours.find((t, i) => {
-    index = i;
+    index = tour[i];
 
     return t.id == req.params.id;
   });
@@ -71,8 +71,31 @@ app.patch('/api/v1/tours/:id', (req, res) => {
         }
       ))
     : res.status(404).json({ status: 'fail', message: 'INVALID ID' });
+});
 
-  console.log(tours[index]);
+app.delete('/api/v1/tours/:id', (req, res) => {
+  let id;
+  const newTours = tours.filter((tour, i) => {
+    if (tour.id == req.params.id) id = tour.id;
+    return tour.id != req.params.id;
+  });
+  console.log(id);
+  // const newTours = tours.splice(req.params.id, 1);
+  id == req.params.id
+    ? fs.writeFile(
+        `${__dirname}/dev-data/data/tours-simple.json`,
+        JSON.stringify(newTours),
+        (err) => {
+          err
+            ? res.status(502).send('error lors de la suppression')
+            : res.status(201).json({
+                status: 'success',
+                results: newTours.length,
+                data: newTours,
+              });
+        }
+      )
+    : res.status(404).json({ status: 'fail delete', message: 'INVALID ID' });
 });
 
 const port = 3000;
