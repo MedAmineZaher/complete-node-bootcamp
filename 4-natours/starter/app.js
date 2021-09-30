@@ -88,15 +88,14 @@ const deleteTour = (req, res) => {
         .status(404)
         .json({ status: 'fail while deleting', message: 'INVALID ID' });
 };
-app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours', getAllTours);
+// app.post('/api/v1/tours', createTour);
+// app.get('/api/v1/tours/:id/', getTour);
+// app.patch('/api/v1/tours/:id', editTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
 
-app.get('/api/v1/tours/:id/', getTour);
-
-app.post('/api/v1/tours', createTour);
-
-app.patch('/api/v1/tours/:id', editTour);
-
-app.delete('/api/v1/tours/:id', deleteTour);
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app.route('/api/v1/tours/:id').get(getTour).patch(editTour).delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
