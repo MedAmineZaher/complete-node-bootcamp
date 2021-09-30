@@ -49,6 +49,32 @@ app.post('/api/v1/tours', (req, res) => {
   );
 });
 
+app.patch('/api/v1/tours/:id', (req, res) => {
+  let index = -1;
+  let tour = tours.find((t, i) => {
+    index = i;
+
+    return t.id == req.params.id;
+  });
+  tour
+    ? ((tours[index] = { ...tour, ...req.body }),
+      fs.writeFile(
+        `${__dirname}/dev-data/data/tours-simple.json`,
+        JSON.stringify(tours),
+        (err) => {
+          err
+            ? res.status(502).send('error lors de la modification')
+            : res.status(201).json({
+                status: 'success',
+                data: tours[index],
+              });
+        }
+      ))
+    : res.status(404).json({ status: 'fail', message: 'INVALID ID' });
+
+  console.log(tours[index]);
+});
+
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
