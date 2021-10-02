@@ -12,6 +12,14 @@ exports.checkID = (req, res, next, val) => {
     return res.status(404).json({ status: 'fail', message: 'INVALID ID' });
   next();
 };
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price)
+    return res
+      .status(404)
+      .json({ status: 'fail', message: 'checkbody fail post' });
+  next();
+};
 //2° ROUTE Handlers
 exports.getAllTours = (req, res) => {
   res.status(200).json({
